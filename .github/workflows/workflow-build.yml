@@ -1,0 +1,14 @@
+name: Build RPMS site
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  build-github-pages:
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    uses: ./.github/workflows/build-github-pages.yml
+    secrets:
+      GHPAGES_GITHUB_TOKEN: ${{ secrets.GHPAGES_GITHUB_TOKEN }}
