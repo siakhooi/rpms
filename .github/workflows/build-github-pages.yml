@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: sudo yum install -y createrepo
+      - run: sudo yum install -y createrepo git
       - run: bin/build-rpm-repo.sh
       - run: find docs
       - uses: actions/upload-artifact@v4
