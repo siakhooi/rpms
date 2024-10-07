@@ -10,3 +10,6 @@ clean:
 build: clean
 	bin/build-rpm-repo.sh
 	ls -lR docs
+
+gpg-key:
+	bin/gpg-generate-key.sh
