@@ -2,4 +2,5 @@
 name=Siak Hooi RPMS Repository
 baseurl=https://siakhooi.github.io/rpms/
 enabeld=1
-gpgcheck=0
+gpgcheck=1
+gpgkey=https://siakhooi.github.io/rpms/siakhooi-rpms.gpg
