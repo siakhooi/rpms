@@ -5,6 +5,10 @@ on:
     secrets:
       GHPAGES_GITHUB_TOKEN:
         required: true
+      GPG_PRIVATE_KEY:
+        required: true
+      GPG_KEY_NAME:
+        required: true
 
 jobs:
   build:
@@ -19,6 +23,9 @@ jobs:
           fetch-depth: 0
       - run: sudo yum install -y createrepo git rpm-sign pinentry
       - run: bin/build-rpm-repo.sh
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
       - run: find docs
       - uses: actions/upload-artifact@v4
         with:
