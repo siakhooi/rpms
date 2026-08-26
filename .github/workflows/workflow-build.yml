@@ -2,7 +2,7 @@ name: Build RPMS site
 on:
   push:
     branches:
-      - "*"
+      - "**"
 
 jobs:
   build-github-pages:
