@@ -1,16 +1,36 @@
-name: Build RPMS site
+name: Build
 on:
   push:
     branches:
-      - "**"
+      - "main"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-github-pages:
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-    uses: ./.github/workflows/build-github-pages.yml
-    secrets:
-      GHPAGES_GITHUB_TOKEN: ${{ secrets.GHPAGES_GITHUB_TOKEN }}
-      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-      GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - run: sudo yum install -y createrepo git rpm-sign pinentry
+      - run: bin/build-rpm-repo.sh
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_KEY_NAME: ${{ secrets.GPG_KEY_NAME }}
+      - run: find docs
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
+        with:
+          name: docs
+          path: ./docs/
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: docs
+
+      - uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
