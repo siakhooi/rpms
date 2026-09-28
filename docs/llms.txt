@@ -1,0 +1,40 @@
+# Siak Hooi RPMS Repository
+
+> Public yum/dnf catalog and package host for Siak Hooi's command-line tools. After a one-time repository setup, each tool is installed with `yum` or `dnf`. Source for every package lives in its own GitHub repository.
+
+This website, [https://siakhooi.github.io/rpms/](https://siakhooi.github.io/rpms/), is the human-readable index of those RPMs. It lists each package name, the install command, and a link to the source repository. The same host serves the yum metadata (`repodata/`), the repository definition, and the GPG public key used to verify packages. The site is published from the `docs/` directory of [https://github.com/siakhooi/rpms](https://github.com/siakhooi/rpms).
+
+One-time setup (Fedora, RHEL, and compatible systems):
+
+```bash
+sudo curl -L https://siakhooi.github.io/rpms/siakhooi-rpms.repo | sudo tee /etc/yum.repos.d/siakhooi-rpms.repo > /dev/null
+```
+
+The repo file enables `siakhooi-rpms`, sets `baseurl` to this site, and turns on GPG checking with `https://siakhooi.github.io/rpms/siakhooi-rpms.gpg`. After that, install a package with `sudo yum install <package>` or `sudo dnf install <package>`.
+
+`siakhooi-devutils` is a parent package. It pulls in Echo Colors, Date Formats, TextUtils, and FileUtils. Those four are also published on their own. The other packages are independent tools.
+
+## Packages
+
+- [DevUtils](https://github.com/siakhooi/devutils): Parent package `siakhooi-devutils`. Installs the development utility set: Echo Colors, Date Formats, TextUtils, and FileUtils.
+- [Date Formats](https://github.com/siakhooi/date-formats): Package `siakhooi-date-formats`. Prints the current or given date in fixed precisions: `y2y` (year), `y2m` (month), `y2d` (day), `y2h` (hour), `y2M` (minute), `y2s` (second), `y2n` (nanoseconds).
+- [Echo Colors](https://github.com/siakhooi/echo-colors): Package `siakhooi-echo-colors`. Colored `echo.*`, `cat.*`, and `highlight.*` commands for a small set of colors, plus `echo.error`, `echo.info`, `echo.debug`, `echo.warn`, and `print-progress` / `print-progress-color`. Set `ECHO_DEBUG_OFF` to silence debug output.
+- [TextUtils](https://github.com/siakhooi/textutils): Package `siakhooi-textutils`. Text transforms and checks: `prefix` and `suffix` add text to each line, `is-true` and `is-false` evaluate truthy and falsy values, and `make-table` prints CSV from stdin as a table.
+- [FileUtils](https://github.com/siakhooi/fileutils): Package `siakhooi-fileutils`. File helpers: `assert-files`, `find-files`, `is-not-empty`, `nested-files-list`, and `delete-directory-if-empty`.
+- [semvery](https://github.com/siakhooi/semvery): Package `siakhooi-semvery`. Java CLI for Semantic Versioning checks: `isValid`, `isStable`, `isGreater`, `isLower`, `isEqual`, and `isEquivalent`.
+- [jexl-executor](https://github.com/siakhooi/jexl-executor): Package `siakhooi-jexl-executor`. Runs Apache Commons JEXL scripts against a shared JSON context, either as a chain of files on the command line or from a YAML execution config (`-c`).
+- [path2json](https://github.com/siakhooi/path2json): Package `siakhooi-path2json`. Prints a directory tree as JSON.
+- [buildo](https://github.com/siakhooi/buildo): Package `siakhooi-buildo`. Builder power tools: git pull/fetch, GitHub latest-release lookup, Docker build and image helpers, backups, housekeeping by age, Jira lookups, config, proxy, upgrade, and shell completion (`source <(buildo-completion)`). Needs `yq` and `docker`.
+- [ore](https://github.com/siakhooi/ore): Package `siakhooi-ore`. Downloads and distributes artifacts from configured sources. Commands include `ore-download`, `ore-distribute`, `ore-artifact`, `ore-run`, config helpers, GitHub latest-release lookup, and an SDKMAN Java list. Needs `yq` and `jq`.
+- [ele](https://github.com/siakhooi/ele): Package `siakhooi-ele`. Manages apps in a local Docker Compose cluster: `ele-init`, `ele-setup`, `ele-up`, `ele-down`, `ele-exec`, `ele-logs`, `ele-ps`, `ele-stats`, and config helpers. Needs `yq`.
+- [devy](https://github.com/siakhooi/devy): Package `siakhooi-devy`. Dev-container and WSL scripts for git (`git-commit`, `git-get`, `git-log`, `git-reset`, `git-update-index`), Maven (`mvn-deps`, `mvn-install`, `mvn-with-settings`, `m2-path`), plus `apt-search`, `get-build-version`, and `devy-check-binaries`. Needs `git`.
+- [json2table](https://github.com/siakhooi/json2table): Package `siakhooi-json2table`. Prints JSON as a table. Choose columns with `-c`, or a spec file with `-s` (also `JSON2TABLE_SPEC` or `JSON2TABLE_SPEC_FILE`).
+- [picsum](https://github.com/siakhooi/picsum): Package `siakhooi-picsum`. CLI client for [https://picsum.photos](https://picsum.photos). `picsum 200` fetches a 200×200 image; `picsum 200 300` fetches width × height. Supports image id, seed, grayscale, blur, and output path.
+- [fibo-planner](https://github.com/siakhooi/fibo-planner): Package `fibo-planner`. Self-contained planning-poker web app for agile estimation. Fibonacci cards, hidden votes until everyone has voted, observer mode, topic queue, and tunable consensus. One Go process (default port 8080); no accounts or database.
+
+## Optional
+
+- [Catalog page](https://siakhooi.github.io/rpms/): The HTML index of packages and install commands.
+- [Repository definition](https://siakhooi.github.io/rpms/siakhooi-rpms.repo): yum/dnf `.repo` file (`name=Siak Hooi RPMS Repository`, `gpgcheck=1`).
+- [GPG public key](https://siakhooi.github.io/rpms/siakhooi-rpms.gpg): Key referenced by the repository file.
+- [Source repository](https://github.com/siakhooi/rpms): GitHub project that publishes this site.
